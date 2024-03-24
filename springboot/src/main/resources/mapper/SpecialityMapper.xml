@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.SpecialityMapper">
+
+    <sql id="Base_Column_List">
+        id,name,content,college_id,score
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Speciality">
+        select speciality.*, college.name as collegeName
+        from speciality
+        left join college on speciality.college_id = college.id
+        <where>
+            <if test="id != null"> and id= #{id}</if>
+            <if test="name != null"> and speciality.name like concat('%', #{name}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Speciality">
+        select
+        <include refid="Base_Column_List" />
+        from speciality
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from speciality
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Speciality" useGeneratedKeys="true">
+        insert into speciality
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="content != null">content,</if>
+                <if test="collegeId != null">college_id,</if>
+                <if test="score != null">score,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="name != null">#{name},</if>
+                <if test="content != null">#{content},</if>
+                <if test="collegeId != null">#{collegeId},</if>
+                <if test="score != null">#{score},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Speciality">
+        update speciality
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="collegeId != null">
+                college_id = #{collegeId},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+        </set>
+        where id = #{id} 
+    </update>
+
+</mapper>

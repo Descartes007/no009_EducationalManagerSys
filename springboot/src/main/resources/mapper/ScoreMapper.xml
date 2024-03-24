@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ScoreMapper">
+
+    <sql id="Base_Column_List">
+        id,student_id,course_id,teacher_id,ordinary_score,exam_score,score
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Score">
+        select score.*, student.name as studentName, course.name as courseName, teacher.name as teacherName
+        from score
+        left join student on score.student_id = student.id
+        left join course on score.course_id = course.id
+        left join teacher on score.teacher_id = teacher.id
+        <where>
+            <if test="id != null"> and id= #{id}</if>
+            <if test="studentId != null"> and score.student_id= #{studentId}</if>
+            <if test="courseId != null"> and score.course_id= #{courseId}</if>
+            <if test="teacherId != null"> and score.teacher_id= #{teacherId}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Score">
+        select
+        <include refid="Base_Column_List" />
+        from score
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from score
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Score" useGeneratedKeys="true">
+        insert into score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="studentId != null">student_id,</if>
+                <if test="courseId != null">course_id,</if>
+                <if test="teacherId != null">teacher_id,</if>
+                <if test="ordinaryScore != null">ordinary_score,</if>
+                <if test="examScore != null">exam_score,</if>
+                <if test="score != null">score,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="studentId != null">#{studentId},</if>
+                <if test="courseId != null">#{courseId},</if>
+                <if test="teacherId != null">#{teacherId},</if>
+                <if test="ordinaryScore != null">#{ordinaryScore},</if>
+                <if test="examScore != null">#{examScore},</if>
+                <if test="score != null">#{score},</if>
+        </trim>
+    </insert>
+    <!--student_id,course_id,teacher_id,ordinary_score,exam_score,score-->
+    <update id="updateById" parameterType="com.example.entity.Score">
+        update score
+        <set>
+            <if test="studentId != null">
+                student_id = #{studentId},
+            </if>
+            <if test="courseId != null">
+                course_id = #{courseId},
+            </if>
+            <if test="teacherId != null">
+                teacher_id = #{teacherId},
+            </if>
+            <if test="ordinaryScore != null">
+                ordinary_score = #{ordinaryScore},
+            </if>
+            <if test="examScore != null">
+                exam_score = #{examScore},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+        </set>
+        where id = #{id} 
+    </update>
+
+</mapper>
