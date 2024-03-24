@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root   #你本地的数据库用户名
     password: 123456 #你本地的数据库密码
-    url: jdbc:mysql://localhost:3306/xm_educational_manager?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/no009_educationalmanager?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
   servlet:
     multipart:
       max-file-size: 100MB
